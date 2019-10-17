@@ -21,16 +21,39 @@ def get_formatted(msg, imie, format):
 
 
 def format_to_json(msg, imie):
+    # Backspace is replaced
+    # with \b
+    # Form
+    # feed is replaced
+    # with \f
+    # Newline is replaced
+    # with \n
+    # Carriage
+    # return is replaced
+    # with \r
+    # Tab is replaced
+    # with \t
+    # Double
+    # quote is replaced
+    # with \"
+    # Backslash is replaced
+    # with \\
+
     return ('{ "imie":"' + imie + '", "mgs":' +
             msg + '"}')
 
 
 def plain_text(msg, imie):
-    return imie + ' ' + msg
+    concat= str(imie) + ' ' + str(msg)
+    remove_space= " ".join(concat.split())
+    escape_strings = remove_space
+    escape_unicode = remove_space.encode('ascii', 'ignore').decode("utf-8")
+    return escape_unicode
 
 
 def plain_text_upper_case(msg, imie):
-    return plain_text(msg.upper(), imie.upper())
+    a = plain_text(msg.upper(), imie.upper())
+    return a
 
 
 def plain_text_lower_case(msg, imie):
