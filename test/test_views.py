@@ -1,7 +1,7 @@
 import unittest
 from hello_world import app
 from hello_world.formater import SUPPORTED
-from flask import request, url_for, redirect
+from flask import url_for
 
 
 class ApiTestCase(unittest.TestCase):
@@ -26,6 +26,21 @@ class ApiTestCase(unittest.TestCase):
        self.assertEqual(rv.data,b'natalia "nat hello world!')
        rv= self.app.get('/?output=plain')
        self.assertEqual(rv.data, b'Natalia "Nat Hello World!')
+
+
+    def test_redirection(self):
+       #Testing if starts redirecting
+       rv= self.app.get('/ui')
+       self.assertEqual(str(rv.status_code),"302")
+
+       #Testing if redirect
+       rv= self.app.get('/ui', follow_redirects=True)
+       self.assertEqual(str(rv.status_code),"200")
+
+       rv= self.app.get('/ui', follow_redirects=True)
+       print(rv.data)
+
+
 
 
 
