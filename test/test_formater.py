@@ -1,16 +1,57 @@
 import unittest
+import sqlite3
 
-from hello_world.formater import plain_text, plain_text_upper_case, plain_text_lower_case
+conn = sqlite3.connect("performed_test.db")
+c= conn.cursor()
+
+
+def insert(table, record1, record2):
+    c.execute("""INSERT INTO {} (TEST, RESULTS) VALUES ('{}','{}')""".format(table, record1, record2))
+
+def delete_table(table):
+    c.execute("""DROP TABLE {} """.format(table))
+
+def truncate_table(table):
+    c.execute("""DELETE FROM {}""".format(table))
+    c.execute("""delete from sqlite_sequence where name='{}';""".format(table))
+
+
+c.execute("""
+CREATE TABLE if not exists PERFORMED_TESTS (ID integer primary key autoincrement, TEST TEXT, RESULTS TEXT)
+""")
+
+
+
+conn.commit()
+
+
+
+
+from hello_world.formater import plain_text, plain_text_upper_case, plain_text_lower_case, format_to_json
 
 class TestFormater(unittest.TestCase):
 
     def test_plain_Concationation(self):
         r = plain_text("Hocki", "Klocki Myszka Miki")
-        self.assertEqual(r, "Klocki Myszka Miki Hocki", "Błędna konkatynacja tekstu")
+        try:
+           self.assertEqual(r, "Klocki Myszka Miki Hocki")
+           insert("PERFORMED_TESTS", self._testMethodName, "Test passed")
+        except:
+           insert("PERFORMED_TESTS", self._testMethodName, "Test failed")
+
+        c.execute("SELECT * FROM PERFORMED_TESTS")
+        print(c.fetchall())
+
+        conn.commit()
 
     def test_plain_TrimSpaces(self):
-        a = plain_text("Hocki", "Klocki  Myszka         Miki")
-        self.assertEqual(a, "Klocki Myszka Miki Hocki")
+        r = plain_text("Hocki", "Klocki  Myszka         Miki")
+        try:
+           self.assertEqual(r, "Klocki Myszka Miki Hocki")
+           insert("PERFORMED_TESTS", self._testMethodName, "Test passed")
+        except:
+           insert("PERFORMED_TESTS", self._testMethodName, "Test failed")
+
 
     def test_plain_TrimNewLines(self):
         myString = plain_text("spaces, new lines \n and tabs \t","I want to Remove all white \t")
@@ -38,5 +79,25 @@ class TestFormater(unittest.TestCase):
         r = plain_text_lower_case("\u0394", "\u0395")
         self.assertEqual(r, r" ")
 
-def json(self):
-        pass
+    def test_json_if_valid(self):
+           r = format_to_json("Cześć","Bartek")
+           self.assertEqual(r,"""{ "imie":"Bartek", "mgs":"Cześć"}""")
+
+    def test_json_if_load(self):
+           import json
+           r = format_to_json("Cześć","Bartek")
+           self.assertTrue(json.loads(r))
+
+    def test_json_special_characters(self):
+        r = format_to_json("""
+        New line    tab 
+        \ Special character
+        " one qoute
+        ""","Test")
+
+        self.assertEqual(r,r'"{ \"imie\":\"Test\", \"mgs\":\"\n        New line    tab \n        \\ Special character\n        \" one qoute\n        \"}"')
+
+
+
+
+# conn.close()

@@ -21,26 +21,11 @@ def get_formatted(msg, imie, format):
 
 
 def format_to_json(msg, imie):
-    # Backspace is replaced
-    # with \b
-    # Form
-    # feed is replaced
-    # with \f
-    # Newline is replaced
-    # with \n
-    # Carriage
-    # return is replaced
-    # with \r
-    # Tab is replaced
-    # with \t
-    # Double
-    # quote is replaced
-    # with \"
-    # Backslash is replaced
-    # with \\
-
-    return ('{ "imie":"' + imie + '", "mgs":' +
-            msg + '"}')
+    import json
+    text = ('{ "imie":"' + imie + '", "mgs":"' +
+     msg + '"}')
+    a = json.dumps(text)
+    return a
 
 
 def plain_text(msg, imie):
