@@ -89,13 +89,9 @@ class TestFormater(unittest.TestCase):
            self.assertTrue(json.loads(r))
 
     def test_json_special_characters(self):
-        r = format_to_json("""
-        New line    tab 
-        \ Special character
-        " one qoute
-        ""","Test")
+        r = format_to_json(imie='Bartek { "Bart" \ Tyrała',msg='Czesc')
+        self.assertEqual(r,r"""{ "imie":"Bartek \{ \"Bart\" \\ Tyrała", "mgs":"Czesc"}""")
 
-        self.assertEqual(r,r'"{ \"imie\":\"Test\", \"mgs\":\"\n        New line    tab \n        \\ Special character\n        \" one qoute\n        \"}"')
 
 
 

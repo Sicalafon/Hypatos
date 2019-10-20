@@ -21,11 +21,14 @@ def get_formatted(msg, imie, format):
 
 
 def format_to_json(msg, imie):
-    import json
+    msg, imie = msg.replace('\\','\\\\'), imie.replace('\\','\\\\')
+    msg, imie = msg.replace("{","\{"), imie.replace("{","\{")
+    msg, imie = msg.replace("}","\}"), imie.replace("}","\}")
+    msg, imie = msg.replace('"',r'\"'), imie.replace('"',r'\"')
+
     text = ('{ "imie":"' + imie + '", "mgs":"' +
      msg + '"}')
-    a = json.dumps(text)
-    return a
+    return text
 
 
 def plain_text(msg, imie):
@@ -43,3 +46,4 @@ def plain_text_upper_case(msg, imie):
 
 def plain_text_lower_case(msg, imie):
     return plain_text(msg.lower(), imie.lower())
+
