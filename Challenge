@@ -1,0 +1,59 @@
+Hypatos Tester/Test Automation Engineer
+Congratulations you made it through the initial interview. Now it’s time to show
+your testing and coding skills. The following task should be self-explanatory,
+but if you have any questions let us know and contact Wojciech Barczyński
+(wb@hypatos.ai).
+Working with an API application
+Test a hello-world app (https://github.com/wojciech12/hello_printer_app):
+1. Check the outputs: curl 127.0.0.1:5000/outputs
+
+/App checked with linux command curl 127.0.0.1:5000/outputs after running main.py module with python
+
+Responses:
+plain, plain_uppercase, plain_lowercase, json
+
+
+2. Check how the API works, e.g.:
+curl '127.0.0.1:5000?output=plain'
+
+It converts passed string into plain text within variable in views module
+
+3. Verify the outpus and write API tests test/test_views.py and logic in
+test/test_formater.py.
+
+Please refer to test/test_formater.py and test_views.py
+
+4. If there are any bugs fix them.
+
+There was a couple of bugs. For example in plain text function user could pass string variable and numeric data type variable
+which raises an error after concatination. For more please refer to the module
+
+5. What other errors do you see there?
+
+The json function was volnerable for passing special characters which breaks the valid structure of json such as " , {, }
+
+6. Please include also a description of two test scenarios that shows a bug.
+7. There is a simple ui, curl 127.0.0.1:5000/ui, test it as well.
+Please refer to test_views.py.
+
+
+
+
+Test Hypatos.ai website
+Our website (https://hypatos.ai) is really simple, so we would like to check
+whether on everypage, when we scroll down, we can see Request a Demo in
+the right upper corner of the page:
+1. Write a script that checks on main page whether it holds true.
+
+Please refer to Test Hypatos.py script
+
+2. Extend the script to cover the subpages Request a Demo.
+
+Please refer to Test Hypatos.py script
+
+3. Write a script that extracts the name and surname of our VP of Machine
+Learning.
+
+Please refer to Test Hypatos.py script
+
+4. How would you write this task in a form of a test scenario.
